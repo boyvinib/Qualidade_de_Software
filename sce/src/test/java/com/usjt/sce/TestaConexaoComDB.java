@@ -30,8 +30,8 @@ public class TestaConexaoComDB {
 		// cenario
 		String url = "jdbc:mysql://localhost:3306/biblioteca";
 		String driver = "com.mysql.jdbc.Driver";
-		String usuario = "root";
-		String senha = "aaa"; // senha errada
+		String usuario = "Alunos";
+		String senha = "alunos"; // senha errada
 		FabricaDeConexoes fabricaDeConexoes = null;
 		ConfiguraDB configuraDB = new ConfiguraDB(url, driver, usuario, senha);
 		fabricaDeConexoes = new FabricaDeConexoes(configuraDB);
@@ -42,7 +42,30 @@ public class TestaConexaoComDB {
 		} catch (Exception e) {
 			// verificacao
 			System.out.println(e.getMessage());
-			assertEquals(e.getMessage(), "java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)");
+			assertEquals(e.getMessage(),
+					"java.sql.SQLException: Access denied for user 'Alunos'@'localhost' (using password: YES)");
+		}
+	}
+
+	@Test
+	public void quandoConectaComUsuarioInvalida_SQLException() {
+		// cenario
+		String url = "jdbc:mysql://localhost:3306/biblioteca";
+		String driver = "com.mysql.jdbc.Driver";
+		String usuario = "Alunos";
+		String senha = "alunos"; // senha errada
+		FabricaDeConexoes fabricaDeConexoes = null;
+		ConfiguraDB configuraDB = new ConfiguraDB(url, driver, usuario, senha);
+		fabricaDeConexoes = new FabricaDeConexoes(configuraDB);
+		try {
+			// acao
+			fabricaDeConexoes.getConnection();
+			fail("deveria falhar");
+		} catch (Exception e) {
+			// verificacao
+			System.out.println(e.getMessage());
+			assertEquals(e.getMessage(),
+					"java.sql.SQLException: Access denied for user 'Aluno'@'localhost' (using password: YES)");
 		}
 	}
 }
